@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/firstFragment">
+
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="com.example.task.View.FirstFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/fragment_first" >
+        <action
+            android:id="@+id/action_firstFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.example.task.View.SecondFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_second" >
+        <action
+            android:id="@+id/action_secondFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
+        <action
+            android:id="@+id/action_secondFragment_to_firstFragment"
+            app:destination="@id/firstFragment" />
+        <argument
+            android:name="Secondname"
+            app:argType="string"
+            app:nullable="true"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/thirdFragment"
+        android:name="com.example.task.View.ThirdFragment"
+        android:label="fragment_third"
+        tools:layout="@layout/fragment_third" >
+        <action
+            android:id="@+id/action_thirdFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_thirdFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
+        <argument
+            android:name="Thirdname"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.task.View.Detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_rewiewFragment"
+            app:destination="@id/rewiewFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
+        <argument
+            android:name="Detailname"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/rewiewFragment"
+        android:name="com.example.task.View.ReviewFragment"
+        android:label="fragment_rewiew"
+        tools:layout="@layout/fragment_rewiew" >
+        <action
+            android:id="@+id/action_rewiewFragment_to_fragmentPromo"
+            app:destination="@id/fragmentPromo" />
+        <action
+            android:id="@+id/action_rewiewFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <argument
+            android:name="register"
+            app:argType="com.example.task.data.RegisterModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentPromo"
+        android:name="com.example.task.View.FragmentPromo"
+        android:label="fragment_promo"
+        tools:layout="@layout/fragment_promo" >
+        <action
+            android:id="@+id/action_fragmentPromo_to_finalFragment"
+            app:destination="@id/finalFragment" />
+        <action
+            android:id="@+id/action_fragmentPromo_to_rewiewFragment"
+            app:destination="@id/rewiewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/finalFragment"
+        android:name="com.example.task.View.FinalFragment"
+        android:label="fragment_final"
+        tools:layout="@layout/fragment_final" >
+        <action
+            android:id="@+id/action_finalFragment_to_firstFragment"
+            app:destination="@id/firstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tab1Fragment"
+        android:name="com.example.task.View.Tab1.Tab1Fragment"
+        android:label="fragment_tab1"
+        tools:layout="@layout/fragment_tab1" />
+    <fragment
+        android:id="@+id/tab2Fragment"
+        android:name="com.example.task.View.Tab2.Tab2Fragment"
+        android:label="fragment_tab2"
+        tools:layout="@layout/fragment_tab2" />
+</navigation>

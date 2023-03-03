@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".View.Tab1.Tab1Fragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Satıcı Adı:"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/reviewSaticiAdi"
+            android:layout_width="150dp"
+            android:maxLines="1"
+            android:layout_height="wrap_content"
+            android:text="Özer Bayraktar"
+            android:textSize="20dp"
+            android:layout_marginStart="57dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="İlan Adı"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/reviewIlanAdi"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Deneme İlanı"
+            android:maxLines="1"
+            android:textSize="20dp"
+            android:layout_marginStart="80dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="İlan Kategorisi"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/reviewKategori"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:text="Televizyon-Samsung"
+            android:textSize="20dp"
+            android:layout_marginStart="18dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="İlan Fiyatı"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/reviewFiyat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50"
+            android:textSize="20dp"
+            android:layout_marginStart="60dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/reviewFiyatTürü"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textSize="20dp"
+            android:layout_marginStart="6dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="İlana Git"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/reviewLink"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="www.google.com"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:textSize="20dp"
+            android:layout_marginStart="72dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
