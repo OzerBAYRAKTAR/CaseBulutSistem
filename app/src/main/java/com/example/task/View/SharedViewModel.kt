@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.task.Models.Category
+import com.example.task.Models.Products
 import com.example.task.Models.SubCategory
 
 class SharedViewModel() : ViewModel() {
@@ -66,7 +67,7 @@ class SharedViewModel() : ViewModel() {
     }
 
     fun getSubCategoryList(): LiveData<List<SubCategory>> {
-        categoryData()
+        subCategoryData()
         return mutableSubCategoryList
     }
 
@@ -78,7 +79,52 @@ class SharedViewModel() : ViewModel() {
         mutableSubCategory.postValue(subcategory)
     }
 
+    //thirdFragment
+    private var mutableProducts = MutableLiveData<Products>()
+    private var mutableProducstList = MutableLiveData<List<Products>>()
+    private lateinit var products: Products
 
+    fun productsData() {
+        val productList=ArrayList<Products>()
+        val p1= Products(1,"Samsung",null,null)
+        val p2= Products(2,"Sony",null,null)
+        val p3= Products(3,"Philips",null,null)
+        val p4= Products(4,"Lg",null,null)
+        val p5= Products(5,"Vestel",null,null)
+        val p6= Products(6,"Arçelik",null,null)
+        val p7= Products(7,"Altus",null,null)
+        val p8= Products(8,"Beko",null,null)
+
+        productList.add(p1)
+        productList.add(p2)
+        productList.add(p3)
+        productList.add(p4)
+        productList.add(p5)
+        productList.add(p6)
+        productList.add(p7)
+        productList.add(p8)
+        mutableProducstList.postValue(productList)
+    }
+
+    fun getProductList(): LiveData<List<Products>> {
+        productsData()
+        return mutableProducstList
+    }
+
+    fun getSelectedProducts(): LiveData<Products> {
+        return mutableProducts
+    }
+    fun setSelectedProducts(position: Int) {
+        products= mutableProducstList.value!!.get(position)
+        mutableProducts.postValue(products)
+    }
+
+    //for detailview items
+    lateinit var ilan_ad:String
+    lateinit var ilan_link:String
+    lateinit var ilan_fiyat:String
+    lateinit var ilan_spinner:String
+    lateinit var ilan_aciklama:String
 
 
 }

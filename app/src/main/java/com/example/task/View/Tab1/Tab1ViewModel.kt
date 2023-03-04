@@ -5,6 +5,5 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.task.Repository.RegisterRepository
 
 
-
 class Tab1ViewModel(application: Application) : AndroidViewModel(application){
 }

@@ -27,15 +27,16 @@ class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemCl
         binding.recyclerFirst.setHasFixedSize(true)
         binding.recyclerFirst.layoutManager=LinearLayoutManager(context)
 
+        catAdapter=CategoryAdapter(categoryList,this)
+        binding.recyclerFirst.adapter=catAdapter
 
+        //get list from viewModel
         viewModel.getCategoryList().observe(viewLifecycleOwner, Observer {
             categoryList.clear()
             categoryList.addAll(it)
             catAdapter.notifyDataSetChanged()
         })
 
-        catAdapter=CategoryAdapter(categoryList,this)
-        binding.recyclerFirst.adapter=catAdapter
     }
 
     override fun onItemClick(position: Int) {

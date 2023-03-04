@@ -35,6 +35,11 @@ class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
 
         binding.viewP.adapter=viewPagerAdapter
 
+        binding.reviewIleri.setOnClickListener {
+            val action=ReviewFragmentDirections.actionRewiewFragmentToFragmentPromo()
+            Navigation.findNavController(it).navigate(action)
+        }
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {

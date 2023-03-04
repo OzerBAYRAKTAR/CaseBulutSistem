@@ -206,7 +206,7 @@
         tools:ignore="RtlHardcoded" />
 
     <TextView
-        android:id="@+id/thrdFirstCat"
+        android:id="@+id/detailFirstCat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -225,10 +225,10 @@
         android:layout_marginBottom="28dp"
         android:src="@drawable/ic_arrowright"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/thrdFirstCat" />
+        app:layout_constraintStart_toEndOf="@+id/detailFirstCat" />
 
     <TextView
-        android:id="@+id/thrdSecCat"
+        android:id="@+id/detailSecCat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
@@ -246,7 +246,7 @@
         android:layout_marginBottom="28dp"
         android:src="@drawable/ic_arrowright"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/thrdSecCat" />
+        app:layout_constraintStart_toEndOf="@+id/detailSecCat" />
 
     <TextView
         android:id="@+id/detailThirdCat"

@@ -9,7 +9,7 @@ import com.example.task.View.SecondFragmentDirections
 import com.example.task.databinding.SecondItemrowBinding
 
 
-class SubCategoryAdapter(val subKategoriList:List<SubCategory>) : RecyclerView.Adapter<SubCategoryAdapter.CardHolder>() {
+class SubCategoryAdapter(val subKategoriList:List<SubCategory>,val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<SubCategoryAdapter.CardHolder>() {
 
     class CardHolder(val binding : SecondItemrowBinding) : RecyclerView.ViewHolder(binding.root){
 
@@ -22,14 +22,18 @@ class SubCategoryAdapter(val subKategoriList:List<SubCategory>) : RecyclerView.A
 
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         holder.binding.secondText.text=subKategoriList.get(position).subKategori_ad
+
         holder.itemView.setOnClickListener {
-            val action= SecondFragmentDirections.actionSecondFragmentToThirdFragment()
-            Navigation.findNavController(it).navigate(action)
+            onItemClickListener.onItemClick(position)
         }
 
     }
 
     override fun getItemCount(): Int {
         return subKategoriList.size
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

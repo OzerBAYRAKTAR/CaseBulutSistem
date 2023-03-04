@@ -1,20 +1,28 @@
 package com.example.task.View.Detail
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
+import android.util.Patterns
+import android.util.Patterns.WEB_URL
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.util.PatternsCompat.WEB_URL
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.task.Models.Category
+import com.example.task.Models.Products
+import com.example.task.Models.SubCategory
 import com.example.task.R
 import com.example.task.View.SharedViewModel
-import com.example.task.data.RegisterModel
 import com.example.task.databinding.FragmentDetailBinding
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.regex.Pattern
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -42,49 +50,89 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
 
+            }
         }
 
         binding.detailSave.setOnClickListener {
-            insertDataToDatabase()
-        }
-    }
+            val name=binding.ilanAdInput.text.toString()
+            val link=binding.LinkInput.text.toString()
+            val amount=binding.fiyatInput.text.toString()
+            val spinner=binding.spinnerText.text.toString()
+            val description=binding.descriptionInput.text.toString()
 
-    private fun insertDataToDatabase() {
-        val name=binding.ilanAdInput.text.toString()
-        val link=binding.LinkInput.text.toString()
-        val amount=binding.fiyatInput.text
-        val spinner=binding.spinnerText.text.toString()
-        val description=binding.descriptionInput.text.toString()
+            sharedViewModel.ilan_ad=name
+            sharedViewModel.ilan_link=link
+            sharedViewModel.ilan_fiyat=amount
+            sharedViewModel.ilan_spinner=spinner
+            sharedViewModel.ilan_aciklama=description
 
-
-
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(link) ||
-            TextUtils.isEmpty(spinner)  || amount!!.isEmpty()){
-            Toast.makeText(requireContext(), "Lütfen tüm boşlukları doldurun.", Toast.LENGTH_SHORT).show()
-        }else{
-            if ( description.length < 50){
-                Toast.makeText(requireContext(), "Açıklama minimum 50 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(link) ||
+                TextUtils.isEmpty(spinner)  || amount.isEmpty()) {
+                Toast.makeText(requireContext(), "Lütfen tüm boşlukları doldurun.", Toast.LENGTH_SHORT).show()
             }else{
-                val register=RegisterModel(name,link,Integer.parseInt(amount.toString()),spinner,description,0)
-                //add to database
-                viewModel.addRegister(register)
+                if ( description.length < 50){
+                    Toast.makeText(requireContext(), "Açıklama minimum 50 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
 
-                val action=DetailFragmentDirections.actionDetailFragmentToRewiewFragment(register)
-                findNavController().navigate(action)
-                Toast.makeText(requireContext(), "Kayıt Yapıldı.", Toast.LENGTH_SHORT).show()
+                }
+                if (!Patterns.WEB_URL.matcher(link).matches()){
+                    Toast.makeText(requireContext(), "Lütfen Linki dogrulayın", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val action=DetailFragmentDirections.actionDetailFragmentToRewiewFragment()
+                    findNavController().navigate(action)
+                }
+            }
+        }
+
+        //get data from firstFragment
+        sharedViewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer {
+            updateFirstUi(it)
+        })
+        //get data from SecondFragment
+        sharedViewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer {
+            updateSecondUi(it)
+        })
+        //get data from thirdFragment
+        sharedViewModel.getSelectedProducts().observe(viewLifecycleOwner, Observer {
+            updateThirdUi(it)
+        })
+        checkLink()
+
+
+
+    }
+    //check link
+    fun checkLink() {
+        binding.checkLink.setOnClickListener {
+            val input=binding.LinkInput.text.toString()
+            if (Patterns.WEB_URL.matcher(input).matches()) {
+                binding.checkLink.setImageResource(R.drawable.checked)
+                Toast.makeText(requireContext(), "Link Dogru", Toast.LENGTH_SHORT).show()
+            }else{
+                binding.checkLink.setImageResource(R.drawable.wrong)
+                Toast.makeText(requireContext(), "Link Yanlis", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    private fun inputCheck(
-        name: String,
-        link: String,
-        amount: Editable,
-        spinner: String,
-    ): Boolean {
-        return !(TextUtils.isEmpty(name) || TextUtils.isEmpty(link) ||
-                TextUtils.isEmpty(spinner)  || amount.isEmpty())
+
+    private fun updateThirdUi(products: Products) {
+        binding.detailThirdCat.setText(products.product_ad)
     }
+
+    private fun updateSecondUi(subCategory: SubCategory) {
+        binding.detailSecCat.setText(subCategory.subKategori_ad)
+    }
+
+    private fun updateFirstUi(category: Category) {
+        binding.detailFirstCat.setText(category.kategori_ad)
+    }
+    fun isValidUrl(url:String) :Boolean{
+        try {
+            URL(url)
+            return true
+        } catch (e: Exception) {
+            return false
+        }
+}
 }

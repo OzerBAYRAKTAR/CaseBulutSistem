@@ -12,7 +12,7 @@ import com.example.task.databinding.SecondItemrowBinding
 import com.example.task.databinding.ThirdItemrowBinding
 
 
-class ProductAdapter(val productList:List<Products>) : RecyclerView.Adapter<ProductAdapter.CardHolder>() {
+class ProductAdapter(val productList:List<Products>,val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<ProductAdapter.CardHolder>() {
 
     class CardHolder(val binding : ThirdItemrowBinding) : RecyclerView.ViewHolder(binding.root){
 
@@ -26,13 +26,16 @@ class ProductAdapter(val productList:List<Products>) : RecyclerView.Adapter<Prod
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         holder.binding.thirdText.text=productList.get(position).product_ad
         holder.itemView.setOnClickListener {
-            val action= ThirdFragmentDirections.actionThirdFragmentToDetailFragment()
-            Navigation.findNavController(it).navigate(action)
+            onItemClickListener.onItemClick(position)
         }
 
     }
 
     override fun getItemCount(): Int {
         return productList.size
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }
