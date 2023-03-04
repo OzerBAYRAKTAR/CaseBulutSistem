@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,24 +21,22 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 
     private lateinit var binding: FragmentThirdBinding
     private lateinit var proAdapter: ProductAdapter
-    private val args by navArgs<ThirdFragmentArgs>()
-    private val args2 by navArgs<SecondFragmentArgs>()
+    private val viewModel: SharedViewModel by activityViewModels()
+
 
     private var productList=ArrayList<Products>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentThirdBinding.bind(view)
 
-        binding.thrdSecCat.text=args.thirdname
-        binding.thrdFirstCat.text=args2.secondname
 
         binding.thirdIleri.setOnClickListener {
-            val action=ThirdFragmentDirections.actionThirdFragmentToDetailFragment(null)
+            val action=ThirdFragmentDirections.actionThirdFragmentToDetailFragment()
             Navigation.findNavController(it).navigate(action)
         }
 
         binding.thirdGeri.setOnClickListener {
-            val action=ThirdFragmentDirections.actionThirdFragmentToSecondFragment(null)
+            val action=ThirdFragmentDirections.actionThirdFragmentToSecondFragment()
             Navigation.findNavController(it).navigate(action)
         }
 

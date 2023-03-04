@@ -20,7 +20,6 @@ class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
 
     private  var _binding: FragmentRewiewBinding?=null
     private val binding get() = _binding!!
-    private val args by navArgs<ReviewFragmentArgs>()
     private lateinit var viewPagerAdapter:FragmentPageAdapter
 
     override fun onCreateView(

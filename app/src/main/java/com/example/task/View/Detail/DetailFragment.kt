@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.task.R
-import com.example.task.View.ThirdFragmentArgs
+import com.example.task.View.SharedViewModel
 import com.example.task.data.RegisterModel
 import com.example.task.databinding.FragmentDetailBinding
 
@@ -20,13 +20,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private  lateinit var binding: FragmentDetailBinding
     private lateinit var viewModel:DetailViewModel
-    private val args by navArgs<DetailFragmentArgs>()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
-
-        binding.detailThirdCat.text=args.detailname
 
         viewModel=ViewModelProvider(this).get(DetailViewModel::class.java)
 

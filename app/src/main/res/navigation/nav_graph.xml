@@ -26,10 +26,6 @@
         <action
             android:id="@+id/action_secondFragment_to_firstFragment"
             app:destination="@id/firstFragment" />
-        <argument
-            android:name="Secondname"
-            app:argType="string"
-            app:nullable="true"/>
 
     </fragment>
     <fragment
@@ -43,10 +39,7 @@
         <action
             android:id="@+id/action_thirdFragment_to_secondFragment"
             app:destination="@id/secondFragment" />
-        <argument
-            android:name="Thirdname"
-            app:argType="string"
-            app:nullable="true" />
+
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -59,10 +52,7 @@
         <action
             android:id="@+id/action_detailFragment_to_thirdFragment"
             app:destination="@id/thirdFragment" />
-        <argument
-            android:name="Detailname"
-            app:argType="string"
-            app:nullable="true" />
+
     </fragment>
     <fragment
         android:id="@+id/rewiewFragment"

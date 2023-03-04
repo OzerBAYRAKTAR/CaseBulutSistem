@@ -8,7 +8,7 @@ import com.example.task.Models.Category
 import com.example.task.View.FirstFragmentDirections
 import com.example.task.databinding.MainItemrowBinding
 
-class CategoryAdapter(val kategoriList:List<Category>) : RecyclerView.Adapter<CategoryAdapter.CardHolder>() {
+class CategoryAdapter(val kategoriList:List<Category> ,val onItemclickListener: OnItemClickListener) : RecyclerView.Adapter<CategoryAdapter.CardHolder>() {
 
     class CardHolder(val binding : MainItemrowBinding) : RecyclerView.ViewHolder(binding.root){
 
@@ -23,14 +23,16 @@ class CategoryAdapter(val kategoriList:List<Category>) : RecyclerView.Adapter<Ca
         holder.binding.mainText.text=kategoriList.get(position).kategori_ad
 
         holder.itemView.setOnClickListener {
-
-            val action=FirstFragmentDirections.actionFirstFragmentToSecondFragment(kategoriList.get(position).kategori_ad)
-            Navigation.findNavController(it).navigate(action)
+            onItemclickListener.onItemClick(position)
         }
 
     }
 
     override fun getItemCount(): Int {
        return kategoriList.size
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

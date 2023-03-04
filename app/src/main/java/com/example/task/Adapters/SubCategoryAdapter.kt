@@ -23,7 +23,7 @@ class SubCategoryAdapter(val subKategoriList:List<SubCategory>) : RecyclerView.A
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         holder.binding.secondText.text=subKategoriList.get(position).subKategori_ad
         holder.itemView.setOnClickListener {
-            val action= SecondFragmentDirections.actionSecondFragmentToThirdFragment(subKategoriList.get(position).subKategori_ad)
+            val action= SecondFragmentDirections.actionSecondFragmentToThirdFragment()
             Navigation.findNavController(it).navigate(action)
         }
 

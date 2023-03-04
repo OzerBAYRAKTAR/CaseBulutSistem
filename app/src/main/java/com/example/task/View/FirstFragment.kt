@@ -3,7 +3,9 @@ package com.example.task.View
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.navigation.Navigation
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task.Adapters.CategoryAdapter
 import com.example.task.R
@@ -11,32 +13,35 @@ import com.example.task.databinding.FragmentFirstBinding
 import com.example.task.Models.Category
 
 
-class FirstFragment : Fragment(R.layout.fragment_first) {
+class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemClickListener  {
 
     private lateinit var binding: FragmentFirstBinding
     private lateinit var catAdapter:CategoryAdapter
-    private var categoryList=ArrayList<Category>()
-    private lateinit var categoryName:Category
+    private var categoryList = ArrayList<Category>()
+    private val viewModel: SharedViewModel by activityViewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFirstBinding.bind(view)
 
         binding.recyclerFirst.setHasFixedSize(true)
         binding.recyclerFirst.layoutManager=LinearLayoutManager(context)
-        categoryList=ArrayList()
 
-        val c1=Category(1,"Telefon")
-        val c2=Category(2,"Bilgisayar")
-        val c3=Category(3,"Diğer")
 
-        categoryList.add(c1)
-        categoryList.add(c2)
-        categoryList.add(c3)
+        viewModel.getCategoryList().observe(viewLifecycleOwner, Observer {
+            categoryList.clear()
+            categoryList.addAll(it)
+            catAdapter.notifyDataSetChanged()
+        })
 
-        catAdapter=CategoryAdapter(categoryList)
+        catAdapter=CategoryAdapter(categoryList,this)
         binding.recyclerFirst.adapter=catAdapter
-
-
-
     }
+
+    override fun onItemClick(position: Int) {
+        viewModel.setSelectedCategory(position)
+        findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
+    }
+
+
 }

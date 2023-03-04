@@ -26,7 +26,7 @@ class ProductAdapter(val productList:List<Products>) : RecyclerView.Adapter<Prod
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         holder.binding.thirdText.text=productList.get(position).product_ad
         holder.itemView.setOnClickListener {
-            val action= ThirdFragmentDirections.actionThirdFragmentToDetailFragment(productList.get(position).product_ad)
+            val action= ThirdFragmentDirections.actionThirdFragmentToDetailFragment()
             Navigation.findNavController(it).navigate(action)
         }
 
