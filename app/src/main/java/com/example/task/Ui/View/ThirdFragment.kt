@@ -1,4 +1,4 @@
-package com.example.task.View
+package com.example.task.Ui.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +13,7 @@ import com.example.task.Models.Category
 import com.example.task.Models.Products
 import com.example.task.Models.SubCategory
 import com.example.task.R
+import com.example.task.ViewModel.SharedViewModel
 import com.example.task.databinding.FragmentThirdBinding
 
 class ThirdFragment : Fragment(R.layout.fragment_third),ProductAdapter.OnItemClickListener {
@@ -20,37 +21,12 @@ class ThirdFragment : Fragment(R.layout.fragment_third),ProductAdapter.OnItemCli
     private lateinit var binding: FragmentThirdBinding
     private lateinit var proAdapter: ProductAdapter
     private var productsList=ArrayList<Products>()
-    private val viewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentThirdBinding.bind(view)
 
-        binding.thirdIleri.setOnClickListener {
-            val action=ThirdFragmentDirections.actionThirdFragmentToDetailFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-
-        binding.thirdGeri.setOnClickListener {
-            val action=ThirdFragmentDirections.actionThirdFragmentToSecondFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-
-        //get list from viewmodel
-        viewModel.getProductList().observe(viewLifecycleOwner, Observer {
-            productsList.clear()
-            productsList.addAll(it)
-            proAdapter.notifyDataSetChanged()
-        })
-
-        //get data from firstFragment
-        viewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer {
-            updateFirstUi(it)
-        })
-        //get data from SecondFragment
-        viewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer {
-            updateSecondUi(it)
-        })
 
         binding.recyclerThird.setHasFixedSize(true)
         binding.recyclerThird.layoutManager= LinearLayoutManager(context)
@@ -58,17 +34,38 @@ class ThirdFragment : Fragment(R.layout.fragment_third),ProductAdapter.OnItemCli
         proAdapter= ProductAdapter(productsList,this)
         binding.recyclerThird.adapter=proAdapter
 
-    }
+        goBack()
+        getList()
+        getCategories()
 
-    fun updateFirstUi(category:Category) {
-        binding.thrdFirstCat.setText(category.kategori_ad)
     }
-    fun updateSecondUi(subCategory: SubCategory) {
-        binding.thrdSecCat.setText(subCategory.subKategori_ad)
+    private fun goBack() {
+        binding.thirdGeri.setOnClickListener {
+            val action=ThirdFragmentDirections.actionThirdFragmentToSecondFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
+    private fun getList() {
+        //get list from viewmodel
+        sharedViewModel.getProductList().observe(viewLifecycleOwner, Observer {
+            productsList.clear()
+            productsList.addAll(it)
+            proAdapter.notifyDataSetChanged()
+        })
+    }
+    private fun getCategories() {
+        //get data from sharedviewmodel
+        sharedViewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer { category ->
 
+            sharedViewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer { subCategory ->
+
+                    binding.thrdFirstCat.setText("${category.kategori_ad}>${subCategory.subKategori_ad}")
+                })
+            })
+    }
+    //go next fragment when click recyclerview item
     override fun onItemClick(position: Int) {
-        viewModel.setSelectedProducts(position)
+        sharedViewModel.setSelectedProducts(position)
         findNavController().navigate(R.id.action_thirdFragment_to_detailFragment)
     }
 

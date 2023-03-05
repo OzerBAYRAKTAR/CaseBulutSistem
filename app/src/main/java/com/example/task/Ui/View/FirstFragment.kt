@@ -1,4 +1,4 @@
-package com.example.task.View
+package com.example.task.Ui.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import com.example.task.Adapters.CategoryAdapter
 import com.example.task.R
 import com.example.task.databinding.FragmentFirstBinding
 import com.example.task.Models.Category
+import com.example.task.ViewModel.SharedViewModel
 
 
 class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemClickListener  {
@@ -33,19 +34,20 @@ class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemCl
         catAdapter=CategoryAdapter(categoryList,this)
         binding.recyclerFirst.adapter=catAdapter
 
-        //get list from viewModel
+        getList()
+
+    }
+    //get list from viewModel
+    private fun getList() {
         viewModel.getCategoryList().observe(viewLifecycleOwner, Observer {
             categoryList.clear()
             categoryList.addAll(it)
             catAdapter.notifyDataSetChanged()
         })
-
     }
 
     override fun onItemClick(position: Int) {
         viewModel.setSelectedCategory(position)
         findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
     }
-
-
 }

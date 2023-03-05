@@ -1,4 +1,4 @@
-package com.example.task.View
+package com.example.task.Ui.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +13,7 @@ import com.example.task.Adapters.SubCategoryAdapter
 import com.example.task.Models.Category
 import com.example.task.Models.SubCategory
 import com.example.task.R
+import com.example.task.ViewModel.SharedViewModel
 import com.example.task.databinding.FragmentSecondBinding
 
 class SecondFragment : Fragment(R.layout.fragment_second), SubCategoryAdapter.OnItemClickListener {
@@ -29,38 +30,39 @@ class SecondFragment : Fragment(R.layout.fragment_second), SubCategoryAdapter.On
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Ver-Kategori Seç"
 
 
-        binding.seconIleri.setOnClickListener {
-            val action=SecondFragmentDirections.actionSecondFragmentToThirdFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-        binding.secondGeri.setOnClickListener {
-            val action=SecondFragmentDirections.actionSecondFragmentToFirstFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-
         binding.recyclerSecond.setHasFixedSize(true)
         binding.recyclerSecond.layoutManager= LinearLayoutManager(context)
-
 
         subCatAdapter=SubCategoryAdapter(subCategoryList,this)
         binding.recyclerSecond.adapter=subCatAdapter
 
-        //get list from ViewModel
+        goBack()
+        getList()
+        getCategori()
+
+    }
+    private fun goBack() {
+        binding.secondGeri.setOnClickListener {
+            val action=SecondFragmentDirections.actionSecondFragmentToFirstFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+    }
+    //get list from ViewModel
+    private fun getList() {
         viewModel.getSubCategoryList().observe(viewLifecycleOwner, Observer {
             subCategoryList.clear()
             subCategoryList.addAll(it)
             subCatAdapter.notifyDataSetChanged()
         })
-
-        //get data from firstFragment
-        viewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer {
-            updateUI(it)
+    }
+    //get category from viewmodel
+    private fun getCategori() {
+        viewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer { category ->
+            binding.secFirstCat.setText("${category.kategori_ad}")
         })
     }
-    fun updateUI( category: Category) {
-        binding.secFirstCat.setText(category.kategori_ad)
-    }
 
+    //go next fragment when click recyclerview item
     override fun onItemClick(position: Int) {
         viewModel.setSelectedSubCategory(position)
         findNavController().navigate(R.id.action_secondFragment_to_thirdFragment)

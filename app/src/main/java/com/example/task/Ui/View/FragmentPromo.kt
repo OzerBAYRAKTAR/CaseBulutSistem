@@ -1,17 +1,13 @@
-package com.example.task.View
+package com.example.task.Ui.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.task.R
 import com.example.task.databinding.FragmentPromoBinding
-import com.example.task.databinding.FragmentRewiewBinding
 
 class FragmentPromo : Fragment(R.layout.fragment_promo) {
 
@@ -23,6 +19,12 @@ class FragmentPromo : Fragment(R.layout.fragment_promo) {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Reklam"
 
+        controlBoxs()
+        checkBoxControl()
+        goBack()
+
+    }
+    private fun controlBoxs() {
         binding.promoIleri.setOnClickListener {
             if (binding.checkKosul.isChecked) {
                 val action = FragmentPromoDirections.actionFragmentPromoToFinalFragment()
@@ -35,14 +37,13 @@ class FragmentPromo : Fragment(R.layout.fragment_promo) {
                 ).show()
             }
         }
+    }
+    private fun goBack() {
         binding.promoGeri.setOnClickListener {
             val action = FragmentPromoDirections.actionFragmentPromoToRewiewFragment()
             Navigation.findNavController(it).navigate(action)
         }
-        checkBoxControl()
-
     }
-
     fun checkBoxControl() {
         binding.check1.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

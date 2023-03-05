@@ -2,10 +2,8 @@ package com.example.task.Adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.task.Models.SubCategory
-import com.example.task.View.SecondFragmentDirections
 import com.example.task.databinding.SecondItemrowBinding
 
 

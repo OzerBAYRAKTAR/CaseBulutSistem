@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/firstFragment"
-        android:name="com.example.task.View.FirstFragment"
+        android:name="com.example.task.Ui.View.FirstFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_first" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.example.task.View.SecondFragment"
+        android:name="com.example.task.Ui.View.SecondFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_second" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/thirdFragment"
-        android:name="com.example.task.View.ThirdFragment"
+        android:name="com.example.task.Ui.View.ThirdFragment"
         android:label="fragment_third"
         tools:layout="@layout/fragment_third" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.task.View.Detail.DetailFragment"
+        android:name="com.example.task.Ui.View.DetailFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_detail" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/rewiewFragment"
-        android:name="com.example.task.View.ReviewFragment"
+        android:name="com.example.task.Ui.View.ReviewFragment"
         android:label="fragment_rewiew"
         tools:layout="@layout/fragment_rewiew" >
         <action
@@ -66,15 +66,11 @@
         <action
             android:id="@+id/action_rewiewFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
-        <argument
-            android:name="register"
-            app:argType="com.example.task.data.RegisterModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
+
     </fragment>
     <fragment
         android:id="@+id/fragmentPromo"
-        android:name="com.example.task.View.FragmentPromo"
+        android:name="com.example.task.Ui.View.FragmentPromo"
         android:label="fragment_promo"
         tools:layout="@layout/fragment_promo" >
         <action
@@ -86,7 +82,7 @@
     </fragment>
     <fragment
         android:id="@+id/finalFragment"
-        android:name="com.example.task.View.FinalFragment"
+        android:name="com.example.task.Ui.View.FinalFragment"
         android:label="fragment_final"
         tools:layout="@layout/fragment_final" >
         <action
@@ -95,12 +91,12 @@
     </fragment>
     <fragment
         android:id="@+id/tab1Fragment"
-        android:name="com.example.task.View.Tab1.Tab1Fragment"
+        android:name="com.example.task.Ui.View.Tab1Fragment"
         android:label="fragment_tab1"
         tools:layout="@layout/fragment_tab1" />
     <fragment
         android:id="@+id/tab2Fragment"
-        android:name="com.example.task.View.Tab2.Tab2Fragment"
+        android:name="com.example.task.Ui.View.Tab2Fragment"
         android:label="fragment_tab2"
         tools:layout="@layout/fragment_tab2" />
 </navigation>

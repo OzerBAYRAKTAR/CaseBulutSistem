@@ -1,4 +1,4 @@
-package com.example.task.View.Detail
+package com.example.task.Ui.View
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -15,13 +15,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.task.Constants
+import com.example.task.Util.Constants
 import com.example.task.Models.Category
 import com.example.task.Models.Products
 import com.example.task.Models.SubCategory
 import com.example.task.R
-import com.example.task.View.SharedViewModel
+import com.example.task.ViewModel.SharedViewModel
 import com.example.task.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -34,28 +35,24 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
+
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Detayları"
 
 
         binding.detailImage.setOnClickListener {
             pickImageGallery()
         }
-        val currencies=resources.getStringArray(R.array.currency)
 
-        val categoryAdapter= ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,currencies)
-        categoryAdapter.notifyDataSetChanged()
-        binding.spinnerMoney.adapter=categoryAdapter
+        saveData()
+        getSpinner()
+        goBack()
+        checkLink()
+        getCategories()
 
-        binding.spinnerMoney.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                binding.spinnerText.setText(p0?.getItemAtPosition(p2).toString())
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
+    }
 
+    private fun saveData() {
         binding.detailSave.setOnClickListener {
-
             val name=binding.ilanAdInput.text.toString()
             val link=binding.LinkInput.text.toString()
             val amount=binding.fiyatInput.text.toString()
@@ -84,27 +81,34 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 }
             }
         }
+    }
+    private fun getSpinner() {
 
-        //get data from firstFragment
-        sharedViewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer {
-            updateFirstUi(it)
-        })
-        //get data from SecondFragment
-        sharedViewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer {
-            updateSecondUi(it)
-        })
-        //get data from thirdFragment
-        sharedViewModel.getSelectedProducts().observe(viewLifecycleOwner, Observer {
-            updateThirdUi(it)
-        })
-        checkLink()
+        val currencies=resources.getStringArray(R.array.currency)
+        val categoryAdapter= ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,currencies)
+        categoryAdapter.notifyDataSetChanged()
+        binding.spinnerMoney.adapter=categoryAdapter
 
+        binding.spinnerMoney.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                binding.spinnerText.setText(p0?.getItemAtPosition(p2).toString())
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+    private fun goBack() {
+        binding.detailGeri.setOnClickListener {
+            val action= DetailFragmentDirections.actionDetailFragmentToThirdFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
     private fun pickImageGallery(){
         val intentToGallery=Intent(Intent.ACTION_PICK)
         intentToGallery.type="image/*"
-        startActivityForResult(intentToGallery,Constants.IMAGE_REQUEST_CODE)
+        startActivityForResult(intentToGallery, Constants.IMAGE_REQUEST_CODE)
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -116,7 +120,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             }
         }
     }
+    //get all categories
+    private fun getCategories() {
+            //get data from sharedviewmodel
+            sharedViewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer { category ->
 
+                sharedViewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer { subCategory ->
+
+                    sharedViewModel.getSelectedProducts().observe(viewLifecycleOwner, Observer { product ->
+                        binding.detailFirstCat.setText("${category.kategori_ad}>${subCategory.subKategori_ad}>${product.product_ad}")
+                    })
+                })
+            })
+        }
     //check link
     fun checkLink() {
         binding.checkLink.setOnClickListener {
@@ -131,15 +147,4 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun updateThirdUi(products: Products) {
-        binding.detailThirdCat.setText(products.product_ad)
-    }
-
-    private fun updateSecondUi(subCategory: SubCategory) {
-        binding.detailSecCat.setText(subCategory.subKategori_ad)
-    }
-
-    private fun updateFirstUi(category: Category) {
-        binding.detailFirstCat.setText(category.kategori_ad)
-    }
 }

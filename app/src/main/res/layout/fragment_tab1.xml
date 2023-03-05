@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".View.Tab1.Tab1Fragment">
+    tools:context=".Ui.View.Tab1Fragment">
 
 
     <LinearLayout
@@ -21,7 +21,7 @@
             android:textColor="@color/black"/>
         <TextView
             android:id="@+id/reviewIlanAdi"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deneme İlanı"
             android:maxLines="1"
@@ -98,7 +98,7 @@
             android:textColor="@color/black"/>
         <TextView
             android:id="@+id/reviewLink"
-            android:layout_width="150dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:text="www.google.com"
             android:maxLines="1"

@@ -1,17 +1,14 @@
-package com.example.task.View
+package com.example.task.Ui.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.task.R
-import com.example.task.databinding.FragmentDetailBinding
+import com.example.task.ViewModel.SharedViewModel
 import com.example.task.databinding.FragmentFinalBinding
-import com.example.task.databinding.FragmentPromoBinding
 
 class FinalFragment : Fragment(R.layout.fragment_final) {
     private  lateinit var binding: FragmentFinalBinding
@@ -28,7 +25,11 @@ class FinalFragment : Fragment(R.layout.fragment_final) {
         }else{
             binding.imageFinal.setImageBitmap(sharedViewModel.ilan_image)
         }
+        goHome()
 
+    }
+    //go home when press imageview
+    private fun goHome() {
         binding.imageHome.setOnClickListener {
             val action=FinalFragmentDirections.actionFinalFragmentToFirstFragment()
             Navigation.findNavController(it).navigate(action)

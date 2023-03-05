@@ -1,4 +1,4 @@
-package com.example.task.View
+package com.example.task.ViewModel
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable

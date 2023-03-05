@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?selectableItemBackground"
-    tools:context=".View.FragmentPromo">
+    tools:context=".Ui.View.FragmentPromo">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -532,20 +532,19 @@
         android:id="@+id/checkKosul"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginBottom="40dp"
         android:button="@drawable/custom_checkbox"
-        app:layout_constraintBottom_toTopOf="@+id/promoIleri"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/textView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/promoIleri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="73dp"
+        android:layout_height="41dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="#79B3E1"
         android:text="İleri"
-        android:textSize="20dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -553,12 +552,12 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/promoGeri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="73dp"
+        android:layout_height="41dp"
         android:layout_marginBottom="16dp"
         android:background="#79B3E1"
         android:text="Geri"
-        android:textSize="20dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
