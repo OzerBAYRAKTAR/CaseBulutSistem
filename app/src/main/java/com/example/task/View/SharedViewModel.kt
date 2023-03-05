@@ -1,5 +1,7 @@
 package com.example.task.View
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -125,6 +127,7 @@ class SharedViewModel() : ViewModel() {
     lateinit var ilan_fiyat:String
     lateinit var ilan_spinner:String
     lateinit var ilan_aciklama:String
+    var ilan_image: Bitmap ?=null
 
 
 }

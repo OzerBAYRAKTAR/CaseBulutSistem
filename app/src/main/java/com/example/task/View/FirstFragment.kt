@@ -3,6 +3,7 @@ package com.example.task.View
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,8 @@ class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemCl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFirstBinding.bind(view)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Ver-Kategori Seç"
 
         binding.recyclerFirst.setHasFixedSize(true)
         binding.recyclerFirst.layoutManager=LinearLayoutManager(context)

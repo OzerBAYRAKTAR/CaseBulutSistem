@@ -1,18 +1,21 @@
 package com.example.task.View
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.task.Adapters.FragmentPageAdapter
 import com.example.task.R
 import com.example.task.databinding.FragmentRewiewBinding
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+
 
 
 class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
@@ -21,13 +24,24 @@ class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
     private  var _binding: FragmentRewiewBinding?=null
     private val binding get() = _binding!!
     private lateinit var viewPagerAdapter:FragmentPageAdapter
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding= FragmentRewiewBinding.inflate(inflater,container,false)
+
+        if (sharedViewModel.ilan_image == null) {
+            binding.reviewImage.setImageResource(R.drawable.ic_placeholder)
+        }else{
+            binding.reviewImage.setImageBitmap(sharedViewModel.ilan_image)
+        }
+
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Ön İzleme"
 
         viewPagerAdapter= FragmentPageAdapter(childFragmentManager,lifecycle)
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("First"))
@@ -58,8 +72,6 @@ class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
                 binding.tabLayout.selectTab(binding.tabLayout.getTabAt(position))
             }
         })
-
-
         return binding.root
     }
 

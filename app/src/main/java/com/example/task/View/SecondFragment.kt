@@ -3,6 +3,7 @@ package com.example.task.View
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -25,6 +26,7 @@ class SecondFragment : Fragment(R.layout.fragment_second), SubCategoryAdapter.On
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSecondBinding.bind(view)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Ver-Kategori Seç"
 
 
         binding.seconIleri.setOnClickListener {

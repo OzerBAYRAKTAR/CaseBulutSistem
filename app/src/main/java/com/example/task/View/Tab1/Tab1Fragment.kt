@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.task.R
-import com.example.task.View.Detail.DetailViewModel
 import com.example.task.View.SharedViewModel
 import com.example.task.databinding.FragmentTab1Binding
 

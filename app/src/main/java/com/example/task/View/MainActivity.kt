@@ -16,12 +16,15 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         val view=binding.root
         setContentView(view)
+        setUpView()
 
+    }
+
+    private fun setUpView() {
         binding.stepView.state
             .animationType(StepView.ANIMATION_CIRCLE)
             .stepsNumber(5)
             .animationDuration(resources.getInteger(android.R.integer.config_shortAnimTime))
             .commit()
-
     }
 }

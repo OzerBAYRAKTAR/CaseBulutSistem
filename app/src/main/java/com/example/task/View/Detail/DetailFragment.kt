@@ -1,42 +1,45 @@
 package com.example.task.View.Detail
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Patterns
-import android.util.Patterns.WEB_URL
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.util.PatternsCompat.WEB_URL
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.task.Constants
 import com.example.task.Models.Category
 import com.example.task.Models.Products
 import com.example.task.Models.SubCategory
 import com.example.task.R
 import com.example.task.View.SharedViewModel
 import com.example.task.databinding.FragmentDetailBinding
-import java.net.HttpURLConnection
-import java.net.URL
-import java.util.regex.Pattern
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private  lateinit var binding: FragmentDetailBinding
-    private lateinit var viewModel:DetailViewModel
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    var pickedBitmap:Bitmap?=null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Detayları"
 
-        viewModel=ViewModelProvider(this).get(DetailViewModel::class.java)
 
+        binding.detailImage.setOnClickListener {
+            pickImageGallery()
+        }
         val currencies=resources.getStringArray(R.array.currency)
 
         val categoryAdapter= ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,currencies)
@@ -45,16 +48,14 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
         binding.spinnerMoney.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
                 binding.spinnerText.setText(p0?.getItemAtPosition(p2).toString())
-
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
-
             }
         }
 
         binding.detailSave.setOnClickListener {
+
             val name=binding.ilanAdInput.text.toString()
             val link=binding.LinkInput.text.toString()
             val amount=binding.fiyatInput.text.toString()
@@ -73,7 +74,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             }else{
                 if ( description.length < 50){
                     Toast.makeText(requireContext(), "Açıklama minimum 50 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
-
                 }
                 if (!Patterns.WEB_URL.matcher(link).matches()){
                     Toast.makeText(requireContext(), "Lütfen Linki dogrulayın", Toast.LENGTH_SHORT).show()
@@ -99,9 +99,24 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         })
         checkLink()
 
-
-
     }
+    private fun pickImageGallery(){
+        val intentToGallery=Intent(Intent.ACTION_PICK)
+        intentToGallery.type="image/*"
+        startActivityForResult(intentToGallery,Constants.IMAGE_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data?.data != null) {
+                pickedBitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,data.data)
+                pickedBitmap?.let{sharedViewModel.ilan_image= pickedBitmap as Bitmap }
+                binding.detailImage.setImageBitmap(pickedBitmap)
+            }
+        }
+    }
+
     //check link
     fun checkLink() {
         binding.checkLink.setOnClickListener {
@@ -127,12 +142,4 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private fun updateFirstUi(category: Category) {
         binding.detailFirstCat.setText(category.kategori_ad)
     }
-    fun isValidUrl(url:String) :Boolean{
-        try {
-            URL(url)
-            return true
-        } catch (e: Exception) {
-            return false
-        }
-}
 }

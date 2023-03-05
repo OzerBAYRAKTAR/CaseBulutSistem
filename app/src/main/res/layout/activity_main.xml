@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".View.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_back"
-        android:elevation="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -28,7 +17,7 @@
         app:layout_constraintBottom_toTopOf="@+id/step_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+        app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
     <com.shuhart.stepview.StepView
@@ -36,24 +25,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        app:sv_selectedCircleColor="#081673"
-        app:sv_stepLineWidth="2dp"
-        app:sv_stepPadding="6dp"
-        app:sv_nextTextColor="#000000"
-        app:sv_nextStepLineColor="#00D4EF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:sv_animationType="Line"
         app:sv_doneCircleColor="#7CBDF1"
-        app:sv_doneStepLineColor="#5F7281"
         app:sv_doneCircleRadius="12dp"
+        app:sv_doneStepLineColor="#5F7281"
+        app:sv_doneStepMarkColor="@color/colorPrimary"
+        app:sv_nextStepLineColor="#00D4EF"
+        app:sv_nextTextColor="#000000"
+        app:sv_selectedCircleColor="#081673"
         app:sv_selectedCircleRadius="16dp"
         app:sv_selectedStepNumberColor="#FFFFFF"
-        app:sv_stepViewStyle="@style/StepView"
-        app:sv_doneStepMarkColor="@color/colorPrimary"
+        app:sv_stepLineWidth="2dp"
         app:sv_stepNumberTextSize="17sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment"
-        app:sv_animationType="Line" />
+        app:sv_stepPadding="6dp"
+        app:sv_stepViewStyle="@style/StepView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

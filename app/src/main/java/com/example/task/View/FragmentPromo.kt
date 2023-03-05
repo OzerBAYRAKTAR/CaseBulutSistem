@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.task.R
 import com.example.task.databinding.FragmentPromoBinding
@@ -19,6 +20,8 @@ class FragmentPromo : Fragment(R.layout.fragment_promo) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPromoBinding.bind(view)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Reklam"
 
         binding.promoIleri.setOnClickListener {
             if (binding.checkKosul.isChecked) {
