@@ -3,6 +3,8 @@ package com.example.task.Ui.View
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -21,12 +23,13 @@ class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemCl
     private lateinit var catAdapter:CategoryAdapter
     private var categoryList = ArrayList<Category>()
     private val viewModel: SharedViewModel by activityViewModels()
+    private lateinit var progrss: ProgressBar
+    private lateinit var txtview: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFirstBinding.bind(view)
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Ver-Kategori Seç"
 
         binding.recyclerFirst.setHasFixedSize(true)
         binding.recyclerFirst.layoutManager=LinearLayoutManager(context)
@@ -35,6 +38,7 @@ class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemCl
         binding.recyclerFirst.adapter=catAdapter
 
         getList()
+        getMain()
 
     }
     //get list from viewModel
@@ -44,6 +48,14 @@ class FirstFragment : Fragment(R.layout.fragment_first),CategoryAdapter.OnItemCl
             categoryList.addAll(it)
             catAdapter.notifyDataSetChanged()
         })
+    }
+    private fun getMain() {
+        progrss=requireActivity().findViewById(R.id.progressBarMain)
+        txtview=requireActivity().findViewById(R.id.textMain)
+        txtview.setText("Satis İslemi(1/5)")
+        progrss.setProgress(20)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Ver-Kategori Seç"
     }
 
     override fun onItemClick(position: Int) {

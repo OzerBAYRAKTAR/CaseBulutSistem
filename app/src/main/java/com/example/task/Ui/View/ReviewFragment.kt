@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
@@ -25,13 +27,15 @@ class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
     private  lateinit var binding: FragmentRewiewBinding
     private lateinit var viewPagerAdapter:FragmentPageAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var progrss: ProgressBar
+    private lateinit var txtview: TextView
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRewiewBinding.bind(view)
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Ön İzleme"
+
 
         if (sharedViewModel.ilan_image == null) {
             binding.reviewImage.setImageResource(R.drawable.ic_placeholder)
@@ -39,10 +43,19 @@ class ReviewFragment : Fragment(R.layout.fragment_rewiew) {
             binding.reviewImage.setImageBitmap(sharedViewModel.ilan_image)
         }
 
+        getMain()
         goNext()
         tabLayoutViewPager()
 
 
+    }
+    private fun getMain() {
+        progrss=requireActivity().findViewById(R.id.progressBarMain)
+        txtview=requireActivity().findViewById(R.id.textMain)
+        txtview.setText("Satis İslemi(3/5)")
+        progrss.setProgress(60)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Ön İzleme"
     }
     private fun tabLayoutViewPager() {
 

@@ -14,35 +14,41 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/step_view"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBarMain"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
-    <com.shuhart.stepview.StepView
-        android:id="@+id/step_view"
+    <ProgressBar
+        android:id="@+id/progressBarMain"
+        style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="80dp"
+        android:progress="25"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:sv_animationType="Line"
-        app:sv_doneCircleColor="#7CBDF1"
-        app:sv_doneCircleRadius="12dp"
-        app:sv_doneStepLineColor="#5F7281"
-        app:sv_doneStepMarkColor="@color/colorPrimary"
-        app:sv_nextStepLineColor="#00D4EF"
-        app:sv_nextTextColor="#000000"
-        app:sv_selectedCircleColor="#081673"
-        app:sv_selectedCircleRadius="16dp"
-        app:sv_selectedStepNumberColor="#FFFFFF"
-        app:sv_stepLineWidth="2dp"
-        app:sv_stepNumberTextSize="17sp"
-        app:sv_stepPadding="6dp"
-        app:sv_stepViewStyle="@style/StepView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:text="Satış İşlemi(1/5)"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarMain"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarMain"
+        app:layout_constraintStart_toStartOf="@+id/progressBarMain"
+        app:layout_constraintTop_toTopOf="@+id/progressBarMain" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

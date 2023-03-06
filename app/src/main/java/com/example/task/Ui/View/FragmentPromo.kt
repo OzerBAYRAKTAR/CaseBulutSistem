@@ -3,6 +3,8 @@ package com.example.task.Ui.View
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
@@ -12,17 +14,25 @@ import com.example.task.databinding.FragmentPromoBinding
 class FragmentPromo : Fragment(R.layout.fragment_promo) {
 
     private lateinit var binding: FragmentPromoBinding
+    private lateinit var progrss: ProgressBar
+    private lateinit var txtview: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPromoBinding.bind(view)
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Reklam"
-
+        getMain()
         controlBoxs()
         checkBoxControl()
         goBack()
 
+    }
+    private fun getMain() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Reklam"
+        progrss=requireActivity().findViewById(R.id.progressBarMain)
+        txtview=requireActivity().findViewById(R.id.textMain)
+        txtview.setText("Satis İslemi(4/5)")
+        progrss.setProgress(80)
     }
     private fun controlBoxs() {
         binding.promoIleri.setOnClickListener {

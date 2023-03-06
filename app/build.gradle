@@ -66,6 +66,13 @@ dependencies {
     //Progress Bar
     implementation 'com.github.shuhart:stepview:1.5.1'
 
+    
+    //noinspection GradleCompatible
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.google.guava:guava:27.0.1-android'
+    implementation 'com.github.YablokovDmitry:StateViewPager:v1.1'
+
+
 
 
 

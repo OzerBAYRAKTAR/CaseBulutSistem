@@ -8,9 +8,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.task.Ui.View.Tab1Fragment
 import com.example.task.Ui.View.Tab2Fragment
 
-class FragmentPageAdapter(
-    fm:FragmentManager,
-    lifecycle: Lifecycle
+
+class FragmentPageAdapter(fm:FragmentManager,lifecycle: Lifecycle
 ):FragmentStateAdapter(fm,lifecycle) {
     override fun getItemCount(): Int {
         return 2

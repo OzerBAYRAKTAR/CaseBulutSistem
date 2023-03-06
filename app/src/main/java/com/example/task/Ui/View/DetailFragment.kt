@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
@@ -28,27 +30,34 @@ import com.example.task.databinding.FragmentDetailBinding
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private  lateinit var binding: FragmentDetailBinding
+    private lateinit var progrss: ProgressBar
+    private lateinit var txtview: TextView
     private val sharedViewModel: SharedViewModel by activityViewModels()
     var pickedBitmap:Bitmap?=null
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
-
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Detayları"
 
 
         binding.detailImage.setOnClickListener {
             pickImageGallery()
         }
 
+        getMain()
         saveData()
         getSpinner()
         goBack()
         checkLink()
         getCategories()
 
+    }
+    private fun getMain() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "İlan Detayları"
+        progrss=requireActivity().findViewById(R.id.progressBarMain)
+        txtview=requireActivity().findViewById(R.id.textMain)
+        txtview.setText("Satis İslemi(2/5)")
+        progrss.setProgress(40)
     }
 
     private fun saveData() {

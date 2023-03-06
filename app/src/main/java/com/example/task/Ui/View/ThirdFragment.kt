@@ -3,6 +3,8 @@ package com.example.task.Ui.View
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -22,10 +24,14 @@ class ThirdFragment : Fragment(R.layout.fragment_third),ProductAdapter.OnItemCli
     private lateinit var proAdapter: ProductAdapter
     private var productsList=ArrayList<Products>()
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var progrss: ProgressBar
+    private lateinit var txtview: TextView
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentThirdBinding.bind(view)
+
 
 
         binding.recyclerThird.setHasFixedSize(true)
@@ -34,10 +40,17 @@ class ThirdFragment : Fragment(R.layout.fragment_third),ProductAdapter.OnItemCli
         proAdapter= ProductAdapter(productsList,this)
         binding.recyclerThird.adapter=proAdapter
 
+        getMain()
         goBack()
         getList()
         getCategories()
 
+    }
+    private fun getMain() {
+        progrss=requireActivity().findViewById(R.id.progressBarMain)
+        txtview=requireActivity().findViewById(R.id.textMain)
+        txtview.setText("Satis İslemi(1/5)")
+        progrss.setProgress(20)
     }
     private fun goBack() {
         binding.thirdGeri.setOnClickListener {
