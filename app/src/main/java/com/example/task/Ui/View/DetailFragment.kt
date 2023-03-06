@@ -1,5 +1,7 @@
 package com.example.task.Ui.View
 
+
+
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,23 +17,28 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.task.Util.Constants
-import com.example.task.Models.Category
-import com.example.task.Models.Products
-import com.example.task.Models.SubCategory
+import android.Manifest.permission
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import com.example.task.R
 import com.example.task.ViewModel.SharedViewModel
 import com.example.task.databinding.FragmentDetailBinding
-
+import com.google.android.material.snackbar.Snackbar
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private  lateinit var binding: FragmentDetailBinding
     private lateinit var progrss: ProgressBar
     private lateinit var txtview: TextView
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private val sharedViewModel: SharedViewModel by activityViewModels()
     var pickedBitmap:Bitmap?=null
 
@@ -41,9 +48,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
 
         binding.detailImage.setOnClickListener {
-            pickImageGallery()
+            selectImage()
         }
 
+        registerLauncher()
         getMain()
         saveData()
         getSpinner()
@@ -112,37 +120,82 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             Navigation.findNavController(it).navigate(action)
         }
     }
-    private fun pickImageGallery(){
-        val intentToGallery=Intent(Intent.ACTION_PICK)
-        intentToGallery.type="image/*"
-        startActivityForResult(intentToGallery, Constants.IMAGE_REQUEST_CODE)
+    private fun selectImage() {
+        // if SDK.Version >= 33
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if(ContextCompat.checkSelfPermission(requireContext(),permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission.READ_MEDIA_IMAGES)){
+                    //rationale
+                    Snackbar.make(requireView(),"Galeriye gitmek için izin gerekli",Snackbar.LENGTH_INDEFINITE).setAction("İzin ver",View.OnClickListener {
+                        //request Permission
+                        permissionLauncher.launch(permission.READ_MEDIA_IMAGES)
+                    }).show()
+                }else{
+                    //permission
+                    permissionLauncher.launch(permission.READ_MEDIA_IMAGES)
+                }
+            }else{
+                val intentToGallery=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            }
+            //if sdk.version <33
+        }else{
+            if(ContextCompat.checkSelfPermission(requireContext(),permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission.READ_EXTERNAL_STORAGE)){
+                    //rationale
+                    Snackbar.make(requireView(),"Galeriye gitmek için izin gerekli",Snackbar.LENGTH_INDEFINITE).setAction("İzin ver",View.OnClickListener {
+                        //request Permission
+                        permissionLauncher.launch(permission.READ_EXTERNAL_STORAGE)
+                    }).show()
+                }else{
+                    //permission
+                    permissionLauncher.launch(permission.READ_EXTERNAL_STORAGE)
+                }
+            }else{
+                val intentToGallery=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            }
+        }
+
     }
 
+    private fun registerLauncher() {
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val intentFromResult = result.data
+                if (intentFromResult != null) {
+                    val imageData = intentFromResult.data
+                    pickedBitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,imageData)
+                    pickedBitmap?.let{sharedViewModel.ilan_image= pickedBitmap as Bitmap }
+                    binding.detailImage.setImageBitmap(pickedBitmap)
+                }
+            }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data?.data != null) {
-                pickedBitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,data.data)
-                pickedBitmap?.let{sharedViewModel.ilan_image= pickedBitmap as Bitmap }
-                binding.detailImage.setImageBitmap(pickedBitmap)
+        }
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result) {
+                //permission granted
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            } else {
+                //permission denied
+                Toast.makeText(requireContext(), "Permisson needed!", Toast.LENGTH_LONG).show()
             }
         }
     }
     //get all categories
     private fun getCategories() {
-            //get data from sharedviewmodel
-            sharedViewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer { category ->
+        //get data from sharedviewmodel
+        sharedViewModel.getSelectedCategory().observe(viewLifecycleOwner, Observer { category ->
 
-                sharedViewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer { subCategory ->
+            sharedViewModel.getSelectedSubCategory().observe(viewLifecycleOwner, Observer { subCategory ->
 
-                    sharedViewModel.getSelectedProducts().observe(viewLifecycleOwner, Observer { product ->
-                        binding.detailFirstCat.setText("${category.kategori_ad}>${subCategory.subKategori_ad}>${product.product_ad}")
-                    })
+                sharedViewModel.getSelectedProducts().observe(viewLifecycleOwner, Observer { product ->
+                    binding.detailFirstCat.setText("${category.kategori_ad}>${subCategory.subKategori_ad}>${product.product_ad}")
                 })
             })
-        }
-    //check link
+        })
+    }
     fun checkLink() {
         binding.checkLink.setOnClickListener {
             val input=binding.LinkInput.text.toString()
